@@ -5,3 +5,7 @@
 本demo占用3000端口，修改端口在app.js第15行修改
 
 本demo没有ie兼容
+
+----
+
+在线demo：[http://pjaxdemo.duapp.com/](http://pjaxdemo.duapp.com/)
