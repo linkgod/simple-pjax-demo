@@ -1,6 +1,7 @@
 (function(){
 	var doll = document.getElementById("doll"),
 		getDoll = document.getElementById("getDoll"),
+		loading = document.getElementById("loading"),
 		gensym;
 
 	//缓存图片地址
@@ -8,6 +9,7 @@
 
 	window.addEventListener("popstate", onpopstateHandler, false);
 	getDoll.addEventListener("click", getDollOnclickHandler, false);
+	doll.addEventListener("load", getDollOnloadHandler, false);
 
 	function onpopstateHandler(e){
 		var itemName = location.pathname.slice(1);
@@ -15,7 +17,7 @@
 		if(item){
 			doll.src = item;
 		}
-	};
+	}
 
 	function getDollOnclickHandler(){
 		var xhr,
@@ -23,6 +25,8 @@
 			item;
 
 		history.pushState(null, null, dollUrl);
+		doll.style.display = "none";
+		loading.style.display = "block";
 
 		//检查缓存
 		item = sessionStorage.getItem(dollUrl);
@@ -37,11 +41,16 @@
 					doll.src = xhr.responseText;
 					sessionStorage.setItem(dollUrl, xhr.responseText);
 				}
-			}
+			};
 			xhr.open("GET", dollUrl, true);
 			xhr.setRequestHeader("pjax", "true");
 			xhr.send();
 		}
+	}
+
+	function getDollOnloadHandler(){
+		doll.style.display = "block";
+		loading.style.display = "none";
 	}
 
 	//循环生成连接
@@ -52,7 +61,7 @@
 			var result = prefix + seq;
 			seq = ( seq + 1 ) % 11;
 			return result;
-		}
+		};
 	})();
 
 })();
